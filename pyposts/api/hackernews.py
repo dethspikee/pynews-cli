@@ -33,7 +33,7 @@ def show_news(stories: bs4.element.ResultSet) -> Generator[str, None, None]:
 
 @check_for_request_errors
 def fetch_news() -> bs4.element.ResultSet:
-    """ 
+    """
     Fetch all posts from hacker news.
     Return Result Set containing <a> elements
     """
@@ -43,4 +43,3 @@ def fetch_news() -> bs4.element.ResultSet:
     stories = page.find_all("a", class_="storylink")
 
     return stories
-

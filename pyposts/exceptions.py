@@ -35,4 +35,3 @@ def check_for_request_errors(func):
             sys.exit(2)
 
     return wrapper
-

@@ -14,7 +14,6 @@ def cli() -> None:
     pass
 
 
-
 cli.add_command(hackernews.hnews)
 
 cli()
