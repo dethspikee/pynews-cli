@@ -13,6 +13,7 @@ def hnews() -> None:
 
     click.echo_via_pager(fetch_news())
 
+
 def fetch_news() -> Generator[str, None, None]:
     """
     Display all posts from the given page
@@ -22,8 +23,10 @@ def fetch_news() -> Generator[str, None, None]:
 
     page = BS(response.content, "html.parser")
     stories = page.find_all("a", class_="storylink")
+    counter = 0
     for story in stories:
+        counter += 1
         link = story.get("href", "")
         text = story.text.strip()
-        yield text + "\n" * 2
-
+        header = "{:>2}: {:>5}\n".format(counter, text)
+        yield header
