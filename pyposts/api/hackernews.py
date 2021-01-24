@@ -44,8 +44,8 @@ def show_news_verbose(stories: bs4.element.ResultSet) -> Generator[str, None, No
         counter += 1
         link = story.get("href", "")
         text = story.text.strip()
-        header = "{:>2}: {:>5}\n".format(counter, text)
-        url = "some url\n"
+        header = "{:>3}: {:>5}\n".format(counter, text)
+        url = "URL: {:>10}\n\n".format(link)
         yield header
         yield url
 
