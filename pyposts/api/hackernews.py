@@ -8,7 +8,8 @@ from pyposts.exceptions import check_for_request_errors
 
 
 @click.command("hnews", short_help="Get latest news from Hackernews")
-def hnews() -> None:
+@click.option("-v", "--verbose", "verbose", help="Show URL and # of comments")
+def hnews(verbose: str) -> None:
     """
     Fetch the latest from HackerNews!
     """
@@ -20,8 +21,6 @@ def show_news(stories: bs4.element.ResultSet) -> Generator[str, None, None]:
     """
     Yield all posts
     """
-    stories = fetch_news()
-
     counter = 0
     for story in stories:
         counter += 1
