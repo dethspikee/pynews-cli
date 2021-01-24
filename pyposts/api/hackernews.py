@@ -8,13 +8,18 @@ from pyposts.exceptions import check_for_request_errors
 
 
 @click.command("hnews", short_help="Get latest news from Hackernews")
-@click.option("-v", "--verbose", "verbose", help="Show URL and # of comments")
+@click.option("-v/--no-verbose",
+              "verbose", default=False,
+              help="Show URLs and # of comments")
 def hnews(verbose: str) -> None:
     """
     Fetch the latest from HackerNews!
     """
     stories = fetch_news()
-    click.echo_via_pager(show_news(stories))
+    if verbose:
+        click.echo_via_pager(show_news_verbose(stories))
+    else:
+        click.echo_via_pager(show_news(stories))
 
 
 def show_news(stories: bs4.element.ResultSet) -> Generator[str, None, None]:
@@ -29,6 +34,20 @@ def show_news(stories: bs4.element.ResultSet) -> Generator[str, None, None]:
         header = "{:>2}: {:>5}\n".format(counter, text)
         yield header
 
+
+def show_news_verbose(stories: bs4.element.ResultSet) -> Generator[str, None, None]:
+    """
+    Yield all posts, URLs and # of comments
+    """
+    counter = 0
+    for story in stories:
+        counter += 1
+        link = story.get("href", "")
+        text = story.text.strip()
+        header = "{:>2}: {:>5}\n".format(counter, text)
+        url = "some url\n"
+        yield header
+        yield url
 
 @check_for_request_errors
 def fetch_news() -> bs4.element.ResultSet:
