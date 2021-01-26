@@ -20,6 +20,7 @@ def hnews(verbose: str) -> None:
         stories = fetch_news_verbose()
         click.echo_via_pager(show_news_verbose(stories))
     else:
+        stories = fetch_news()
         click.echo_via_pager(show_news(stories))
 
 
@@ -51,6 +52,7 @@ def show_news_verbose(posts: dict) -> Generator[str, None, None]:
         yield url
         yield comment
 
+
 @check_for_request_errors
 def fetch_news_verbose() -> dict:
     """
@@ -59,8 +61,8 @@ def fetch_news_verbose() -> dict:
     """
     URL = "https://news.ycombinator.com/"
     response = requests.get(URL, timeout=10)
-    page = bs4.BeautifulSoup(response.content, "html.parser")
 
+    page = bs4.BeautifulSoup(response.content, "html.parser")
     stories = page.find_all("a", class_="storylink")
     td_row = page.find_all("td", class_="subtext")
     a_tags = [a_tag.find_all("a")[-1] for a_tag in td_row]
@@ -76,3 +78,18 @@ def fetch_news_verbose() -> dict:
 
 
     return all_posts
+
+
+@check_for_request_errors
+def fetch_news() -> dict:
+    """
+    Fetch all posts and return ResultSet of
+    <a> tags containing each post
+    """
+    URL = "https://news.ycombinator.com/"
+    response = requests.get(URL, timeout=10)
+
+    page = bs4.BeautifulSoup(response.content, "html.parser")
+    posts = page.find_all("a", class_="storylink")
+
+    return posts
