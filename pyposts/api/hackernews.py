@@ -10,7 +10,10 @@ from pyposts.exceptions import check_for_request_errors
 
 @click.command("hnews", short_help="Get latest news from Hackernews")
 @click.option(
-    "-v/--no-verbose", "verbose", default=False, help="Show URLs and # of comments"
+    "-v/--no-verbose",
+    "verbose",
+    default=False,
+    help="Show URLs and # of comments"
 )
 def hnews(verbose: str) -> None:
     """
