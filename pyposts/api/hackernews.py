@@ -9,9 +9,9 @@ from pyposts.exceptions import check_for_request_errors
 
 
 @click.command("hnews", short_help="Get latest news from Hackernews")
-@click.option("-v/--no-verbose",
-              "verbose", default=False,
-              help="Show URLs and # of comments")
+@click.option(
+    "-v/--no-verbose", "verbose", default=False, help="Show URLs and # of comments"
+)
 def hnews(verbose: str) -> None:
     """
     Fetch the latest from HackerNews!
@@ -56,8 +56,8 @@ def show_news_verbose(posts: dict) -> Generator[str, None, None]:
 @check_for_request_errors
 def fetch_news_verbose() -> dict:
     """
-    Fetch all posts and return posts, and
-    # of comments
+    Fetch all posts and return posts,
+    # of comments and URLS in a dictionary
     """
     URL = "https://news.ycombinator.com/"
     response = requests.get(URL, timeout=10)
@@ -68,14 +68,18 @@ def fetch_news_verbose() -> dict:
     a_tags = [a_tag.find_all("a")[-1] for a_tag in td_row]
 
     comments = [comment.text.split()[0] for comment in a_tags]
-    comments = [comment if comment.isnumeric() else "No comments"
-                for comment in comments]
+    comments = [
+        comment if comment.isnumeric() else "No comments" for comment in comments
+    ]
     posts = [story.text for story in stories]
     links = [story.get("href", "") for story in stories]
 
-    all_posts = {post: [comment, url] for (post, comment, url)
-                 in zip_longest(posts, comments, links, fillvalue="missing")}
-
+    all_posts = {
+        post: [comment, url]
+        for (post, comment, url) in zip_longest(
+            posts, comments, links, fillvalue="missing"
+        )
+    }
 
     return all_posts
 

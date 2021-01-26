@@ -1,6 +1,7 @@
-import requests
 import sys
 import functools
+
+import requests
 
 
 def check_for_request_errors(func):
