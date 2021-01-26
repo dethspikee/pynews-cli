@@ -1,4 +1,5 @@
 from typing import Generator
+from itertools import zip_longest
 
 import click
 import requests
@@ -15,9 +16,9 @@ def hnews(verbose: str) -> None:
     """
     Fetch the latest from HackerNews!
     """
-    stories, comments = fetch_news_and_extract()
     if verbose:
-        click.echo_via_pager(show_news_verbose(stories, comments))
+        stories = fetch_news_verbose()
+        click.echo_via_pager(show_news_verbose(stories))
     else:
         click.echo_via_pager(show_news(stories))
 
@@ -35,36 +36,43 @@ def show_news(stories: bs4.element.ResultSet) -> Generator[str, None, None]:
         yield header
 
 
-def show_news_verbose(stories: bs4.element.ResultSet, comments) -> Generator[str, None, None]:
+def show_news_verbose(posts: dict) -> Generator[str, None, None]:
     """
     Yield all posts, URLs and # of comments
     """
     counter = 0
-    for story, comment in zip(stories, comments):
+    for post, data in posts.items():
         counter += 1
-        link = story.get("href", "")
-        text = story.text.strip()
-        comment = comment if comment.isnumeric() else "No comments"
-        header = "{:<3}: {:>5}\n".format(counter, text)
-        url = "URL: {:>10}\n".format(link)
-        comment = "Comments: {}\n\n".format(comment)
+        comment, url = data
+        header = "{:<3}: {:>5}\n".format(counter, post)
+        url = "URL: {:>10}\n".format(url)
+        comment = "{} comment(s)\n\n".format(comment)
         yield header
         yield url
         yield comment
 
 @check_for_request_errors
-def fetch_news_and_extract() -> bs4.element.ResultSet:
+def fetch_news_verbose() -> dict:
     """
-    Fetch all posts and exract posts, urls and comments
-    from hacker news. Return Result Set containing
-    <a> elements
+    Fetch all posts and return posts, and
+    # of comments
     """
     URL = "https://news.ycombinator.com/"
-    response = requests.get(URL)
+    response = requests.get(URL, timeout=10)
     page = bs4.BeautifulSoup(response.content, "html.parser")
+
     stories = page.find_all("a", class_="storylink")
     td_row = page.find_all("td", class_="subtext")
     a_tags = [a_tag.find_all("a")[-1] for a_tag in td_row]
-    comments = [comment.text.split()[0] for comment in a_tags]
 
-    return stories, comments
+    comments = [comment.text.split()[0] for comment in a_tags]
+    comments = [comment if comment.isnumeric() else "No comments"
+                for comment in comments]
+    posts = [story.text for story in stories]
+    links = [story.get("href", "") for story in stories]
+
+    all_posts = {post: [comment, url] for (post, comment, url)
+                 in zip_longest(posts, comments, links, fillvalue="missing")}
+
+
+    return all_posts
