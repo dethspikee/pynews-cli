@@ -1,4 +1,3 @@
-import requests
 import click
 
 import pyposts
