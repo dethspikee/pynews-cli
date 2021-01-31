@@ -15,7 +15,8 @@ from pyposts.exceptions import check_for_request_errors
     default=False,
     help="Show URLs and # of comments"
 )
-def hnews(verbose: str) -> None:
+@click.option("-p", "--page", "page", default="1", help="Specify page number")
+def hnews(page: str, verbose: str) -> None:
     """
     Fetch the latest from HackerNews!
     """
@@ -23,7 +24,7 @@ def hnews(verbose: str) -> None:
         stories = fetch_news_verbose()
         click.echo_via_pager(show_news_verbose(stories))
     else:
-        stories = fetch_news()
+        stories = fetch_news(page)
         click.echo_via_pager(show_news(stories))
 
 
@@ -88,12 +89,12 @@ def fetch_news_verbose() -> dict:
 
 
 @check_for_request_errors
-def fetch_news() -> dict:
+def fetch_news(page: str) -> dict:
     """
     Fetch all posts and return ResultSet of
     <a> tags containing each post
     """
-    URL = "https://news.ycombinator.com/"
+    URL = f"https://news.ycombinator.com/news?p={page}"
     response = requests.get(URL, timeout=10)
 
     page = bs4.BeautifulSoup(response.content, "html.parser")
