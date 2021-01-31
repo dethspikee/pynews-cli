@@ -21,7 +21,7 @@ def hnews(page: str, verbose: str) -> None:
     Fetch the latest from HackerNews!
     """
     if verbose:
-        stories = fetch_news_verbose()
+        stories = fetch_news_verbose(page)
         click.echo_via_pager(show_news_verbose(stories))
     else:
         stories = fetch_news(page)
@@ -58,12 +58,12 @@ def show_news_verbose(posts: dict) -> Generator[str, None, None]:
 
 
 @check_for_request_errors
-def fetch_news_verbose() -> dict:
+def fetch_news_verbose(page: str) -> dict:
     """
     Fetch all posts and return posts,
     # of comments and URLS in a dictionary
     """
-    URL = "https://news.ycombinator.com/"
+    URL = f"https://news.ycombinator.com/news?p={page}"
     response = requests.get(URL, timeout=10)
 
     page = bs4.BeautifulSoup(response.content, "html.parser")
