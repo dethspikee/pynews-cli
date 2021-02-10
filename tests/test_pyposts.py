@@ -28,5 +28,5 @@ def test_pynews_hackernews():
     runner = CliRunner()
     result = runner.invoke(cli, ["hnews", "--help"])
 
-    assert result.exit_code == 0
     assert "Fetch the latest" in result.output
+    assert result.exit_code == 0
