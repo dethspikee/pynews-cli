@@ -24,6 +24,17 @@ def test_pynews_cli():
     assert result.exit_code == 0
 
 
+def test_hnews_not_verbose():
+    """
+    Test hnews in standard not verbose mode
+    """
+    runner = CliRunner()
+    result = runner.invoke(cli, ["hnews"])
+
+    assert "1:" in result.output
+    assert result.exit_code == 0
+
+
 def test_hnews_help():
     """
     Test help menu for hnews command
