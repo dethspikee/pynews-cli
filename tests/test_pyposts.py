@@ -5,6 +5,9 @@ from pynews.cli import cli
 
 
 def test_version():
+    """
+    Test correct version is used
+    """
     assert __version__ == '0.1.0'
 
 
