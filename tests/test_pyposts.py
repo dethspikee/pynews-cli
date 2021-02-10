@@ -30,5 +30,3 @@ def test_pynews_hackernews():
 
     assert result.exit_code == 0
     assert "Fetch the latest" in result.output
-
-
