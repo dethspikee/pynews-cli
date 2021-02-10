@@ -24,7 +24,7 @@ def test_pynews_cli():
     assert result.exit_code == 0
 
 
-def test_pynews_hackernews():
+def test_hnews_help():
     """
     Test help menu for hnews command
     """
