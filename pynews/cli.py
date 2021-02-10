@@ -14,3 +14,7 @@ def cli() -> None:
 
 
 cli.add_command(hackernews.hnews)
+
+
+if __name__ == "__main__":
+    cli()
