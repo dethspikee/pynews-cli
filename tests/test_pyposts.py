@@ -35,6 +35,17 @@ def test_hnews_not_verbose():
     assert result.exit_code == 0
 
 
+def test_hnews_verbose():
+    """
+    Test hnews in verbose mode
+    """
+    runner = CliRunner()
+    result = runner.invoke(cli, ["hnews", "-v"])
+
+    assert "URL:" in result.output
+    assert result.exit_code == 0
+
+
 def test_hnews_help():
     """
     Test help menu for hnews command
