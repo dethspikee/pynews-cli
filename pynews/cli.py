@@ -14,5 +14,3 @@ def cli() -> None:
 
 
 cli.add_command(hackernews.hnews)
-
-cli()
