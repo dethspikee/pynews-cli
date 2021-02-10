@@ -21,3 +21,14 @@ def test_pynews_cli():
     assert result.exit_code == 0
 
 
+def test_pynews_hackernews():
+    """
+    Test help menu for hnews command
+    """
+    runner = CliRunner()
+    result = runner.invoke(cli, ["hnews", "--help"])
+
+    assert result.exit_code == 0
+    assert "Fetch the latest" in result.output
+
+
