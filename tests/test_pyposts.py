@@ -9,8 +9,15 @@ def test_version():
 
 
 def test_pynews_cli():
+    """
+    Test if main menu contains 'hnews' option and signals
+    correct exit code
+    """
+
     runner = CliRunner()
     result = runner.invoke(cli)
 
     assert "hnews" in result.output
     assert result.exit_code == 0
+
+
