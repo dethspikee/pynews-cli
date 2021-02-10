@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "pyposts"
+name = "pynews"
 version = "0.1.0"
 description = "Fetch posts from popular websites directly into your shell"
 authors = ["Damian Tabor <tab.damian93@gmail.com>"]

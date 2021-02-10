@@ -1,11 +1,11 @@
 import click
 
-import pyposts
-from pyposts.api import hackernews
+import pynews
+from pynews.api import hackernews
 
 
 @click.group()
-@click.version_option(version=pyposts.__version__)
+@click.version_option(version=pynews.__version__)
 def cli() -> None:
     """
     Fetch news directly from your shell

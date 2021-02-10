@@ -5,7 +5,7 @@ import click
 import requests
 import bs4
 
-from pyposts.exceptions import check_for_request_errors
+from pynews.exceptions import check_for_request_errors
 
 
 @click.command("hnews", short_help="Get latest news from Hackernews")
