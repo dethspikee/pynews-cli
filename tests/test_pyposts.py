@@ -1,4 +1,4 @@
-from pyposts import __version__
+from pynews import __version__
 
 
 def test_version():
