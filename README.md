@@ -1,7 +1,8 @@
 <p align="center">
   <h3 align="center">pyposts CLI</h3>
-  ![GIF demo](demo/pynews-demo.gif)
 </p>
+
+  ![GIF demo](demo/pynews-demo.gif)
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
