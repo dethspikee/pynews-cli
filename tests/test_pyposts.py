@@ -1,7 +1,7 @@
 from click.testing import CliRunner
 
 from pynews import __version__
-from pynews.cli import cli
+from pynews.pynews import cli
 
 
 def test_version():
