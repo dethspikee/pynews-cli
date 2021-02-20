@@ -1,2 +1,4 @@
-# pyposts
-CLI for fetching hacker news directly from your terminal
+<br />
+<p align="center">
+  <h3 align="center">pyposts CLI</h3>
+</p>
