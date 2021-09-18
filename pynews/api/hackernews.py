@@ -10,10 +10,7 @@ from pynews.exceptions import check_for_request_errors
 
 @click.command("hnews", short_help="Get latest news from Hackernews")
 @click.option(
-    "-v/--no-verbose",
-    "verbose",
-    default=False,
-    help="Show URLs and # of comments"
+    "-v/--no-verbose", "verbose", default=False, help="Show URLs and # of comments"
 )
 @click.option("-p", "--page", "page", default="1", help="Specify page number")
 def hnews(page: str, verbose: str) -> None:
